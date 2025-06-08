@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkh27s7wu2ip6"]
+[gd_scene load_steps=12 format=3 uid="uid://bkh27s7wu2ip6"]
 
 [ext_resource type="Script" uid="uid://dvioax0rpupdb" path="res://camera_3d.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://cf4xse7wb4pop" path="res://char.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://ba51jodgvssbb" path="res://ground_generator.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b0wnw47omwaxh" path="res://ground_block.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bao2n5a0jdlv0" path="res://enemy.tscn" id="5_lquwl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
 
@@ -65,3 +66,6 @@ script = ExtResource("3_h2yge")
 block_scene = ExtResource("4_1bvp3")
 infinite = true
 max_blocks = 500
+
+[node name="Enemy" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.25, 2)

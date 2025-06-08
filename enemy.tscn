@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bao2n5a0jdlv0"]
+[gd_scene load_steps=7 format=3 uid="uid://bao2n5a0jdlv0"]
+
+[ext_resource type="Script" uid="uid://ovwvjkqi2aq5" path="res://enemy.gd" id="1_7k104"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_7xaro"]
 radius = 0.25
@@ -18,6 +20,7 @@ refraction_texture = SubResource("GradientTexture1D_4gyqm")
 radius = 0.25
 
 [node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_7k104")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_7xaro")

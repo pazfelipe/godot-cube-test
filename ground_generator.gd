@@ -27,8 +27,6 @@ func update_ground():
 	var viewport := get_viewport()
 	var size = viewport.get_visible_rect().size
 	
-	print("Generated blocks", generated_blocks.size())
-
 	var corners = [
 		Vector2(0, 0),
 		Vector2(size.x, 0),
