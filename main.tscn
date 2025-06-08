@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bkh27s7wu2ip6"]
+[gd_scene load_steps=10 format=3 uid="uid://bkh27s7wu2ip6"]
 
 [ext_resource type="Script" uid="uid://dvioax0rpupdb" path="res://camera_3d.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://cf4xse7wb4pop" path="res://char.gd" id="2_h2yge"]
@@ -8,14 +8,6 @@
 [ext_resource type="SpriteFrames" uid="uid://cblb7a8ag6wer" path="res://assets/sprites/soldier.tres" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://b6qux3wjl4yft" path="res://enemy_spawner.gd" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://n2a6eenx12sn" path="res://Bullet.tscn" id="7_5vw27"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yge"]
-albedo_color = Color(0, 0.290563, 0.290728, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
-size = Vector3(0.5, 0.75, 0.5)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5vw27"]
 radius = 0.25
@@ -34,24 +26,14 @@ keep_aspect = 0
 projection = 1
 current = true
 size = 5.0
+near = 0.5
 script = ExtResource("2_0xm2m")
 target = NodePath("../char")
+offset = Vector3(0, 10, 20)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
 shadow_enabled = true
-
-[node name="tree" type="StaticBody3D" parent="."]
-collision_layer = 256
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="tree"]
-transform = Transform3D(0.4, 0, 0, 0, 1.5, 0, 0, 0, 0.5, 0, 0.75, 0)
-mesh = SubResource("BoxMesh_0xm2m")
-surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="tree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("BoxShape3D_1bvp3")
 
 [node name="char" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 collision_layer = 2

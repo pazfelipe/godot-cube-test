@@ -9,6 +9,11 @@ func _ready():
 func initialize(dir: Vector3):
 	direction = dir.normalized()
 
+	var sprite = $AnimatedSprite3D
+	if sprite:
+		var angle_y = atan2(direction.x, direction.z)
+		sprite.rotation_degrees = Vector3(0, rad_to_deg(angle_y), 0)
+
 func _physics_process(delta):
 	velocity = direction * speed
 	move_and_slide()
