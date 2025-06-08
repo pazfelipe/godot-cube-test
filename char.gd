@@ -79,6 +79,7 @@ func _shoot():
 		return
 
 	var forward = -camera.global_transform.basis.z.normalized()
+	
 	var spawn_position = global_transform.origin + forward * -0.5
 	spawn_position.y = 1.5
 	var basis = Basis().looking_at(forward, Vector3.UP)
