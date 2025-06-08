@@ -11,8 +11,6 @@ var generated_blocks := {}
 func _ready():
 	update_ground()
 
-
-
 func _process(delta):
 	time_accumulator += delta
 	if time_accumulator >= update_interval:
@@ -60,18 +58,22 @@ func update_ground():
 	var start_z = int(floor(min_z / block_size))
 	var end_z = int(ceil(max_z / block_size))
 
+	# Gera novos blocos
 	for x in range(start_x, end_x + 1):
 		for z in range(start_z, end_z + 1):
 			var key = Vector2i(x, z)
 			if not generated_blocks.has(key):
 				_generate_block_at(key)
 
-	# Limpeza de blocos fora da câmera
+	# Limpa blocos fora da área visível + margem
+	var margin := 2  # margem extra além da tela
 	var blocks_to_remove := []
+
 	for key in generated_blocks:
-		var block = generated_blocks[key]
-		var block_pos = block.global_transform.origin
-		if not camera.is_position_in_frustum(block_pos):
+		var bx = key.x * block_size
+		var bz = key.y * block_size
+
+		if bx < (min_x - margin) or bx > (max_x + margin) or bz < (min_z - margin) or bz > (max_z + margin):
 			blocks_to_remove.append(key)
 
 	for key in blocks_to_remove:
