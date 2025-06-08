@@ -6,7 +6,8 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_7xaro"]
 radius = 0.25
 
-[node name="Enemy" type="CharacterBody3D"]
+[node name="Enemy" type="CharacterBody3D" groups=["enemy"]]
+collision_layer = 4
 script = ExtResource("1_7k104")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

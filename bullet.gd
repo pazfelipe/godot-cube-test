@@ -18,7 +18,12 @@ func _physics_process(delta):
 	velocity = direction * speed
 	move_and_slide()
 
-	# Destruir quando sair da tela
+	var collision = move_and_collide(velocity * delta)
+	if collision and collision.get_collider().is_in_group("enemy"):
+		collision.get_collider().queue_free()
+		queue_free()
+
+	# Destruir fora da tela
 	var cam = get_viewport().get_camera_3d()
 	if cam:
 		var screen_pos = cam.unproject_position(global_position)
