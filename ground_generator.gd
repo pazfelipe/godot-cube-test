@@ -3,6 +3,8 @@ extends Node3D
 @export var block_scene: PackedScene
 @export var block_size: float = 0.2
 @export var update_interval := 0.05
+@export var infinite := false
+@export var max_blocks := 1000000
 
 
 var time_accumulator := 0.0
@@ -21,9 +23,11 @@ func update_ground():
 	var camera := get_viewport().get_camera_3d()
 	if camera == null:
 		return
-
+		
 	var viewport := get_viewport()
 	var size = viewport.get_visible_rect().size
+	
+	print("Generated blocks", generated_blocks.size())
 
 	var corners = [
 		Vector2(0, 0),
@@ -57,13 +61,34 @@ func update_ground():
 	var end_x = int(ceil(max_x / block_size))
 	var start_z = int(floor(min_z / block_size))
 	var end_z = int(ceil(max_z / block_size))
+	
 
-	# Gera novos blocos
+	var char_node = get_parent().get_node_or_null("char")
+	if char_node == null:
+		return
+		
+	var char_pos = char_node.global_position
+	var char_x = int(round(char_pos.x / block_size))
+	var char_z = int(round(char_pos.z / block_size))
+
+	var coords_to_generate := []
+
 	for x in range(start_x, end_x + 1):
 		for z in range(start_z, end_z + 1):
 			var key = Vector2i(x, z)
 			if not generated_blocks.has(key):
-				_generate_block_at(key)
+				coords_to_generate.append(key)
+
+	# Ordena os blocos pela distância ao `char`
+	coords_to_generate.sort_custom(func(a, b):
+		return a.distance_squared_to(Vector2i(char_x, char_z)) < b.distance_squared_to(Vector2i(char_x, char_z))
+	)
+
+	# Gera os blocos respeitando o limite
+	for key in coords_to_generate:
+		if not infinite and generated_blocks.size() >= max_blocks:
+			break
+		_generate_block_at(key)
 
 	# Limpa blocos fora da área visível + margem
 	var margin := 2  # margem extra além da tela

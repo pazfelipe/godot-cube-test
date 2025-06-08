@@ -63,3 +63,5 @@ shape = SubResource("BoxShape3D_1bvp3")
 [node name="GroundGenerator" type="Node3D" parent="."]
 script = ExtResource("3_h2yge")
 block_scene = ExtResource("4_1bvp3")
+infinite = true
+max_blocks = 500
