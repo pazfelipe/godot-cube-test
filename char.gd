@@ -62,6 +62,7 @@ func _physics_process(_delta):
 
 	# Aplicar movimento
 	var dir = direction.normalized()
+				
 	velocity.x = dir.x * speed
 	velocity.z = dir.z * speed
 
