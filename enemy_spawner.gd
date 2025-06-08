@@ -35,11 +35,14 @@ func _spawn_enemy():
 	var angle = randf() * TAU
 	var distance = randf_range(3.0, spawn_radius)
 	var offset = Vector3(cos(angle), 0, sin(angle)) * distance
-	enemy.global_position = _char.global_position + offset
+	var spawn_pos = _char.global_position + offset
+	spawn_pos.y = 1.0  # ou ajuste isso para alinhar com o seu chão
+
+	enemy.global_position = spawn_pos
+
 	get_parent().add_child(enemy)
 	_enemies.append(enemy)
 
-	# Cleanup se o inimigo for destruído
 	enemy.connect("tree_exited", Callable(self, "_on_enemy_exited").bind(enemy))
 
 func _on_enemy_exited(enemy):
