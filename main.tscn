@@ -60,7 +60,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("BoxShape3D_1bvp3")
 
-[node name="GroundGenerator" type="Node3D" parent="." node_paths=PackedStringArray("char")]
+[node name="GroundGenerator" type="Node3D" parent="."]
 script = ExtResource("3_h2yge")
-char = NodePath("../char")
 block_scene = ExtResource("4_1bvp3")

@@ -1,9 +1,7 @@
 extends Node3D
 
-@export var char: Node3D
 @export var block_scene: PackedScene
 @export var block_size: float = 0.2
-@export var view_distance: int = 5
 
 var generated_blocks := {}
 
@@ -14,38 +12,60 @@ func _process(_delta):
 	update_ground()
 
 func update_ground():
-	if char == null:
-		return
-
-	var char_block = Vector2i(
-		int(char.global_transform.origin.x / block_size),
-		int(char.global_transform.origin.z / block_size)
-	)
-	
-	print("char_block:", char_block)
-
-	for x in range(char_block.x - view_distance, char_block.x + view_distance + 1):
-		for z in range(char_block.y - view_distance, char_block.y + view_distance + 1):
-			var key = Vector2i(x, z)
-			if not generated_blocks.has(key):
-				print("Instanciando bloco em:", key)
-				_generate_block_at(key)
-				
 	var camera := get_viewport().get_camera_3d()
 	if camera == null:
 		return
 
-	var blocks_to_remove := []
+	var viewport := get_viewport()
+	var size = viewport.get_visible_rect().size
 
+	var corners = [
+		Vector2(0, 0),
+		Vector2(size.x, 0),
+		Vector2(size.x, size.y),
+		Vector2(0, size.y)
+	]
+
+	var min_x = INF
+	var max_x = -INF
+	var min_z = INF
+	var max_z = -INF
+
+	for corner in corners:
+		var from = camera.project_ray_origin(corner)
+		var to = from + camera.project_ray_normal(corner) * 1000.0
+
+		var plane = Plane(Vector3.UP, 0.0)
+		var hit = plane.intersects_ray(from, to - from)
+		if hit != null:
+			var pos = hit
+			min_x = min(min_x, pos.x)
+			max_x = max(max_x, pos.x)
+			min_z = min(min_z, pos.z)
+			max_z = max(max_z, pos.z)
+
+	if min_x == INF or max_x == -INF:
+		return  # nenhum ponto visível
+
+	var start_x = int(floor(min_x / block_size))
+	var end_x = int(ceil(max_x / block_size))
+	var start_z = int(floor(min_z / block_size))
+	var end_z = int(ceil(max_z / block_size))
+
+	for x in range(start_x, end_x + 1):
+		for z in range(start_z, end_z + 1):
+			var key = Vector2i(x, z)
+			if not generated_blocks.has(key):
+				_generate_block_at(key)
+
+	# Limpeza de blocos fora da câmera
+	var blocks_to_remove := []
 	for key in generated_blocks:
 		var block = generated_blocks[key]
 		var block_pos = block.global_transform.origin
-
-		# Verifica se o bloco está visível na câmera
 		if not camera.is_position_in_frustum(block_pos):
 			blocks_to_remove.append(key)
 
-	# Remove os blocos fora da visão da câmera
 	for key in blocks_to_remove:
 		generated_blocks[key].queue_free()
 		generated_blocks.erase(key)
@@ -60,7 +80,3 @@ func _generate_block_at(block_coords: Vector2i):
 	block.global_position = pos
 	add_child(block)
 	generated_blocks[block_coords] = block
-	var collider = block.find_child("CollisionShape3D")
-	var has_shape = collider != null and collider.shape != null
-	print("Bloco tem colisor válido?", has_shape)
-	
