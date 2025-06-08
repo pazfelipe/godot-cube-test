@@ -9,6 +9,7 @@ var _shoot_timer := 0.0
 
 func _ready():
 	global_transform.origin.y = 1.0
+	print("Teste:", "_ready no char")
 
 func _physics_process(_delta):
 	var direction = Vector3.ZERO
@@ -85,5 +86,5 @@ func _shoot():
 	var transform = Transform3D(basis, spawn_position)
 
 	var bullet = bullet_scene.instantiate()
-	bullet.global_transform = transform  # ⬅️ AQUI SETA ANTES DE ADD_CHILD
-	get_parent().add_child(bullet)
+	bullet.global_transform = transform
+	get_tree().current_scene.add_child(bullet)
