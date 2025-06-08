@@ -2,14 +2,22 @@ extends Node3D
 
 @export var block_scene: PackedScene
 @export var block_size: float = 0.2
+@export var update_interval := 0.05
 
+
+var time_accumulator := 0.0
 var generated_blocks := {}
 
 func _ready():
 	update_ground()
 
-func _process(_delta):
-	update_ground()
+
+
+func _process(delta):
+	time_accumulator += delta
+	if time_accumulator >= update_interval:
+		time_accumulator = 0.0
+		update_ground()
 
 func update_ground():
 	var camera := get_viewport().get_camera_3d()
