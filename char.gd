@@ -2,6 +2,10 @@ extends CharacterBody3D
 
 @export var speed := 10.0
 @export var camera: Camera3D
+@export var bullet_scene: PackedScene
+@export var shoot_interval := 0.5
+
+var _shoot_timer := 0.0
 
 func _ready():
 	global_transform.origin.y = 1.0
@@ -63,3 +67,23 @@ func _physics_process(_delta):
 	if global_transform.origin.y < -10.0:
 		global_transform.origin.y = 1.0
 		print("Resetou altura")
+		
+	# Disparo automático
+	_shoot_timer += _delta
+	if _shoot_timer >= shoot_interval:
+		_shoot_timer = 0.0
+		_shoot()
+		
+		
+func _shoot():
+	if bullet_scene == null or camera == null:
+		return
+
+	var forward = -camera.global_transform.basis.z.normalized()
+	var spawn_position = global_transform.origin + forward * 3.0 + Vector3.UP * 1.5
+	var basis = Basis().looking_at(forward, Vector3.UP)
+	var transform = Transform3D(basis, spawn_position)
+
+	var bullet = bullet_scene.instantiate()
+	bullet.global_transform = transform  # ⬅️ AQUI SETA ANTES DE ADD_CHILD
+	get_parent().add_child(bullet)

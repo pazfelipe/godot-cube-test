@@ -3,7 +3,7 @@ extends Camera3D
 @export var target: Node3D
 @export var offset: Vector3 = Vector3(0, 10, 10)
 @export var follow_speed: float = 5.0
-@export var zoom_min: float = 4.0
+@export var zoom_min: float = 3.0
 @export var zoom_max: float = 8.0
 @export var zoom_speed: float = 1.0
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bkh27s7wu2ip6"]
+[gd_scene load_steps=14 format=3 uid="uid://bkh27s7wu2ip6"]
 
 [ext_resource type="Script" uid="uid://dvioax0rpupdb" path="res://camera_3d.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://cf4xse7wb4pop" path="res://char.gd" id="2_h2yge"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b0wnw47omwaxh" path="res://ground_block.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bao2n5a0jdlv0" path="res://enemy.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://b6qux3wjl4yft" path="res://enemy_spawner.gd" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://n2a6eenx12sn" path="res://Bullet.tscn" id="7_5vw27"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
 
@@ -41,6 +42,7 @@ shadow_enabled = true
 [node name="char" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("2_h2yge")
 camera = NodePath("../Camera3D")
+bullet_scene = ExtResource("7_5vw27")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="char"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
