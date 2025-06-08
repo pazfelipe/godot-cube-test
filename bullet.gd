@@ -3,14 +3,14 @@ extends CharacterBody3D
 @export var speed: float = 20.0
 var direction := Vector3.ZERO
 
-func _ready():
-	direction = -global_transform.basis.z.normalized()
-	velocity = direction * speed
+func initialize(dir: Vector3):
+	direction = dir.normalized()
 
 func _physics_process(delta):
+	velocity = direction * speed
 	move_and_slide()
-	
-	# Auto-destruir fora da tela
+
+	# Destruir quando sair da tela
 	var cam = get_viewport().get_camera_3d()
 	if cam:
 		var screen_pos = cam.unproject_position(global_position)

@@ -2,24 +2,25 @@
 
 [ext_resource type="Script" uid="uid://da0m5n7tc3ct8" path="res://bullet.gd" id="1_ayd6b"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_6bhup"]
-radius = 0.1
-height = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etv04"]
-albedo_color = Color(0.434087, 0.41297, 1, 1)
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_6bhup"]
 radius = 0.1
 
+[sub_resource type="SphereMesh" id="SphereMesh_ayd6b"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4s4u5"]
+albedo_color = Color(0.983935, 0.000840363, 0.990295, 1)
+
 [node name="Bullet" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_ayd6b")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_6bhup")
-surface_material_override/0 = SubResource("StandardMaterial3D_etv04")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6bhup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ayd6b")
+surface_material_override/0 = SubResource("StandardMaterial3D_4s4u5")

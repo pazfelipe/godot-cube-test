@@ -9,7 +9,12 @@ var _shoot_timer := 0.0
 
 func _ready():
 	global_transform.origin.y = 1.0
-	print("Teste:", "_ready no char")
+	
+func _process(delta):
+	_shoot_timer += delta
+	if _shoot_timer >= shoot_interval:
+		_shoot_timer = 0.0
+		_shoot()
 
 func _physics_process(_delta):
 	var direction = Vector3.ZERO
@@ -61,19 +66,12 @@ func _physics_process(_delta):
 	# Adiciona gravidade (ou mantém no chão)
 	velocity.y -= 9.8 * _delta  # ou 0 se você quiser fixo
 	
-	#print("CHAR POS: ", global_transform.origin)
-
 	move_and_slide()
 	
 	if global_transform.origin.y < -10.0:
 		global_transform.origin.y = 1.0
 		print("Resetou altura")
 		
-	# Disparo automático
-	_shoot_timer += _delta
-	if _shoot_timer >= shoot_interval:
-		_shoot_timer = 0.0
-		_shoot()
 		
 		
 func _shoot():
@@ -81,10 +79,12 @@ func _shoot():
 		return
 
 	var forward = -camera.global_transform.basis.z.normalized()
-	var spawn_position = global_transform.origin + forward * 3.0 + Vector3.UP * 1.5
+	var spawn_position = global_transform.origin + forward * -0.5
+	spawn_position.y = 1.5
 	var basis = Basis().looking_at(forward, Vector3.UP)
 	var transform = Transform3D(basis, spawn_position)
 
 	var bullet = bullet_scene.instantiate()
 	bullet.global_transform = transform
 	get_tree().current_scene.add_child(bullet)
+	bullet.initialize(forward)  # <-- aqui define a direção após o spawn

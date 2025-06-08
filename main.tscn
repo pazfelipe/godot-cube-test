@@ -8,14 +8,6 @@
 [ext_resource type="Script" uid="uid://b6qux3wjl4yft" path="res://enemy_spawner.gd" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://n2a6eenx12sn" path="res://Bullet.tscn" id="7_5vw27"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0.762488, 0.101639, 0.358269, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
-size = Vector3(0.5, 1, 0.5)
-
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yge"]
@@ -24,7 +16,21 @@ albedo_color = Color(0, 0.290563, 0.290728, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(0.5, 0.75, 0.5)
 
+[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_color = Color(0.762488, 0.101639, 0.358269, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
+size = Vector3(0.5, 1, 0.5)
+
 [node name="Node3D" type="Node3D"]
+
+[node name="GroundGenerator" type="Node3D" parent="."]
+script = ExtResource("3_h2yge")
+block_scene = ExtResource("4_1bvp3")
+infinite = true
+max_blocks = 500
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 0.703395, 0.710799, 0, -0.710799, 0.703395, 0, 5, 5)
@@ -39,7 +45,19 @@ target = NodePath("../char")
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
 shadow_enabled = true
 
+[node name="tree" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="tree"]
+transform = Transform3D(0.4, 0, 0, 0, 1.5, 0, 0, 0, 0.5, 0, 0.75, 0)
+mesh = SubResource("BoxMesh_0xm2m")
+surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="tree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_1bvp3")
+
 [node name="char" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
+collision_layer = 2
 script = ExtResource("2_h2yge")
 camera = NodePath("../Camera3D")
 bullet_scene = ExtResource("7_5vw27")
@@ -53,25 +71,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_lquwl")
 
-[node name="tree" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="tree"]
-transform = Transform3D(0.4, 0, 0, 0, 1.5, 0, 0, 0, 0.5, 0, 0.75, 0)
-mesh = SubResource("BoxMesh_0xm2m")
-surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="tree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("BoxShape3D_1bvp3")
-
-[node name="GroundGenerator" type="Node3D" parent="."]
-script = ExtResource("3_h2yge")
-block_scene = ExtResource("4_1bvp3")
-infinite = true
-max_blocks = 500
-
 [node name="EnemySpawner" parent="." instance=ExtResource("5_lquwl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+collision_layer = 4
+collision_mask = 10
 script = ExtResource("6_7mycd")
 enemy_scene = ExtResource("5_lquwl")
 spawn_interval_range = Vector2(1, 3)
