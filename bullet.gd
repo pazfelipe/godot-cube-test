@@ -3,6 +3,9 @@ extends CharacterBody3D
 @export var speed: float = 20.0
 var direction := Vector3.ZERO
 
+func _ready():
+	$AnimatedSprite3D.play("shoot")
+
 func initialize(dir: Vector3):
 	direction = dir.normalized()
 

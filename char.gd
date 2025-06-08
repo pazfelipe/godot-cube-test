@@ -79,6 +79,12 @@ func _physics_process(_delta):
 	
 	move_and_slide()
 	
+		# Girar sprite para a esquerda/direita com base em dir.x
+	if dir.x > 0.1:
+		$AnimatedSprite3D.scale.x = abs($AnimatedSprite3D.scale.x)  # Direita
+	elif dir.x < -0.1:
+		$AnimatedSprite3D.scale.x = -abs($AnimatedSprite3D.scale.x)  # Esquerda
+	
 	if global_transform.origin.y < -10.0:
 		global_transform.origin.y = 1.0
 		print("Resetou altura")
