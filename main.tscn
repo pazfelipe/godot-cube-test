@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bkh27s7wu2ip6"]
+[gd_scene load_steps=13 format=3 uid="uid://bkh27s7wu2ip6"]
 
 [ext_resource type="Script" uid="uid://dvioax0rpupdb" path="res://camera_3d.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://cf4xse7wb4pop" path="res://char.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://ba51jodgvssbb" path="res://ground_generator.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b0wnw47omwaxh" path="res://ground_block.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bao2n5a0jdlv0" path="res://enemy.tscn" id="5_lquwl"]
+[ext_resource type="SpriteFrames" uid="uid://cblb7a8ag6wer" path="res://assets/sprites/soldier.tres" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://b6qux3wjl4yft" path="res://enemy_spawner.gd" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://n2a6eenx12sn" path="res://Bullet.tscn" id="7_5vw27"]
 
@@ -16,13 +17,8 @@ albedo_color = Color(0, 0.290563, 0.290728, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(0.5, 0.75, 0.5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0.762488, 0.101639, 0.358269, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
-size = Vector3(0.5, 1, 0.5)
+[sub_resource type="SphereShape3D" id="SphereShape3D_5vw27"]
+radius = 0.25
 
 [node name="Node3D" type="Node3D"]
 
@@ -60,17 +56,19 @@ shape = SubResource("BoxShape3D_1bvp3")
 [node name="char" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 collision_layer = 2
 script = ExtResource("2_h2yge")
+speed = 1.0
 camera = NodePath("../Camera3D")
 bullet_scene = ExtResource("7_5vw27")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="char"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
-mesh = SubResource("BoxMesh_1bvp3")
-surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="char"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("BoxShape3D_lquwl")
+shape = SubResource("SphereShape3D_5vw27")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="char"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0)
+sprite_frames = ExtResource("6_5vw27")
+animation = &"idle"
+speed_scale = 2.5
 
 [node name="EnemySpawner" parent="." instance=ExtResource("5_lquwl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)

@@ -9,6 +9,7 @@ var _shoot_timer := 0.0
 
 func _ready():
 	global_transform.origin.y = 1.0
+	$AnimatedSprite3D.play("idle")
 	
 func _process(delta):
 	_shoot_timer += delta
@@ -18,6 +19,7 @@ func _process(delta):
 
 func _physics_process(_delta):
 	var direction = Vector3.ZERO
+	var sprite = $AnimatedSprite3D
 
 	# WASD movimentação tradicional
 	if Input.is_action_pressed("ui_up"):
@@ -65,6 +67,15 @@ func _physics_process(_delta):
 
 	# Adiciona gravidade (ou mantém no chão)
 	velocity.y -= 9.8 * _delta  # ou 0 se você quiser fixo
+	
+	if direction.length() > 0.01:
+		if sprite.animation != "walk":
+			sprite.play("walk")
+		sprite.speed_scale = 2.5
+	else:
+		if sprite.animation != "idle":
+			sprite.play("idle")
+		sprite.speed_scale = 1.5
 	
 	move_and_slide()
 	

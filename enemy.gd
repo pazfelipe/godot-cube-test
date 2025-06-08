@@ -6,6 +6,7 @@ var target: Node3D
 func _ready():
 	# Procura o personagem (ajuste o caminho se necessário)
 	target = get_parent().get_node_or_null("char")
+	$AnimatedSprite3D.play("walk")
 
 func _physics_process(delta):
 	if target == null:

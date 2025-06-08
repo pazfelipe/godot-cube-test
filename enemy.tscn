@@ -1,20 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bao2n5a0jdlv0"]
+[gd_scene load_steps=4 format=3 uid="uid://bao2n5a0jdlv0"]
 
 [ext_resource type="Script" uid="uid://ovwvjkqi2aq5" path="res://enemy.gd" id="1_7k104"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_7xaro"]
-radius = 0.25
-height = 0.5
-
-[sub_resource type="Gradient" id="Gradient_7k104"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_4gyqm"]
-gradient = SubResource("Gradient_7k104")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qi2p4"]
-albedo_color = Color(0.771248, 0, 0.107595, 1)
-refraction_enabled = true
-refraction_texture = SubResource("GradientTexture1D_4gyqm")
+[ext_resource type="SpriteFrames" uid="uid://cyaksh0v2uj6g" path="res://assets/sprites/orc.tres" id="2_4gyqm"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7xaro"]
 radius = 0.25
@@ -22,9 +9,11 @@ radius = 0.25
 [node name="Enemy" type="CharacterBody3D"]
 script = ExtResource("1_7k104")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_7xaro")
-surface_material_override/0 = SubResource("StandardMaterial3D_qi2p4")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_7xaro")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+sprite_frames = ExtResource("2_4gyqm")
+animation = &"walk"
+speed_scale = 1.5
